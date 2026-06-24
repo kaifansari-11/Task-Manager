@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Manager
 
-## Getting Started
+A simple, focused task management web app built with Next.js (App Router)
+and Tailwind CSS. All data is stored in the browser's `localStorage` —
+no backend or database required.
 
-First, run the development server:
+## Features
+
+- **Create** tasks with a title, optional description, and priority
+  (High / Medium / Low)
+- **Read** tasks, filtered by All / Active / Completed, sorted by
+  completion status, then priority, then most recently created
+- **Update** a task's title inline, or toggle it complete/incomplete
+- **Delete** individual tasks, or bulk-clear all completed tasks
+- Live counters for total / active / completed tasks
+- Persists across browser refreshes via `localStorage` — no sign-in,
+  no server
+
+## Tech stack
+
+- [Next.js](https://nextjs.org/) (App Router)
+- React (hooks-based state, no external state library)
+- Tailwind CSS
+- Browser `localStorage` for persistence
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See ARCHITECTURE.md for a full breakdown of the component structure and
+how state/localStorage are handled.
 
-## Learn More
+```
+app/          Routes, root layout, global styles
+hooks/        useTasks — all CRUD logic + localStorage syncing
+lib/          storage.js (localStorage wrapper), taskUtils.js (sort/filter/id helpers)
+components/   Header, AddTaskForm, FilterTabs, TaskRow, PriorityBadge
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deploying to Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push this project to a GitHub repository.
+2. Import the repository at vercel.com/new.
+3. Leave the default settings (Next.js is auto-detected) and deploy.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+No environment variables or external services are required — everything
+runs client-side.
 
-## Deploy on Vercel
+## Notes on data storage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tasks are stored under the `taskmanager_tasks` key in `localStorage`.
+This means:
+- Data is local to one browser, on one device. It will not sync between
+  devices or browsers.
+- Clearing your browser's site data/cache for this app will delete all
+  saved tasks.
+- No personal data ever leaves your browser — there's no backend to
+  send it to.
